@@ -1,18 +1,14 @@
 version: '3.8'
 services:
-  mongodb:
-    user: "999:999"
-    image: mongodb/mongodb-community-server:6.0-ubi8
-    command: mongod --bind_ip_all
+  reservertions:
+    build:
+      context: .
+      dockerfile: ./apps/reservations/Dockerfile
+      target: development
+    command: npm run start:dev reservations
     ports:
-      - "27017:27017"
+      - '3000:3000'
     volumes:
-      - type: bind
-        source: ./data
-        target: /data/db
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
-      interval: 10s
-      timeout: 10s
-      retries: 5
-      start_period: 40s
+      - .:/usr/src/app
+  mongo:
+    image: mongo
