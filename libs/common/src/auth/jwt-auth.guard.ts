@@ -4,7 +4,7 @@ import {
   Inject,
   Injectable,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { AUTH_SERVICE } from '@app/common/constants/services';
 import { ClientProxy } from '@nestjs/microservices';
 
@@ -18,5 +18,12 @@ export class JwtAuthGuard implements CanActivate {
     if (!jwt) {
       return false;
     }
+
+    return this.authClient.send('authenticate', { Authenticate: jwt }).pipe(
+      tap((res) => {
+        context.switchToHttp().getRequest().user = res;
+      }),
+      map(() => true),
+    );
   }
 }
