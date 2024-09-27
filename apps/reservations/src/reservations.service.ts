@@ -12,11 +12,16 @@ export class ReservationsService {
     @Inject(PAYMENTS_SERVICE) private readonly paymentsService: ClientProxy,
   ) {}
   async create(createReservationDto: CreateReservationDto, user: UserDto) {
-    return this.reservationRepository.create({
-      ...createReservationDto,
-      timestamp: new Date(),
-      userId: user._id,
-    });
+    this.paymentsService
+      .send('create_charge', createReservationDto.charge)
+      .subscribe(async (response) => {
+        console.log(response);
+        const reservation = await this.reservationRepository.create({
+          ...createReservationDto,
+          timestamp: new Date(),
+          userId: user._id,
+        });
+      });
   }
 
   async findAll() {
