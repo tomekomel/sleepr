@@ -12,16 +12,19 @@ export class ReservationsService {
     private readonly reservationRepository: ReservationsRepository,
     @Inject(PAYMENTS_SERVICE) private readonly paymentsService: ClientProxy,
   ) {}
-  async create(createReservationDto: CreateReservationDto, user: UserDto) {
+  async create(
+    createReservationDto: CreateReservationDto,
+    { email, _id: userId }: UserDto,
+  ) {
     return this.paymentsService
-      .send('create_charge', createReservationDto.charge)
+      .send('create_charge', { ...createReservationDto.charge, email })
       .pipe(
         map((res) => {
           return this.reservationRepository.create({
             ...createReservationDto,
             invoiceId: res.id,
             timestamp: new Date(),
-            userId: user._id,
+            userId,
           });
         }),
       );
