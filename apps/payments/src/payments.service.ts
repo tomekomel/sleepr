@@ -25,5 +25,7 @@ export class PaymentsService {
       payment_method_types: ['card'],
       currency: 'usd',
     });
+
+    return paymentIntent;
   }
 }

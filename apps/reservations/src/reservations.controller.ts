@@ -31,7 +31,7 @@ export class ReservationsController {
       user,
     );
     this.logger.log(
-      `Reservation for ${createReservationDto.placeId} by user: [${user._id}] was created.`,
+      `Reservation for ${createReservationDto.startDate} - ${createReservationDto.endDate} by user: [${user._id}] was created.`,
     );
     return reservation;
   }
