@@ -15,7 +15,7 @@ COPY libs libs
 
 RUN cd apps/notifications && pnpm install
 
-RUN pnpm run build
+RUN pnpm run build notifications
 
 FROM node:alpine AS production
 
@@ -25,7 +25,7 @@ ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
 
 COPY package.json ./
-COPY pnpm-lock.json ./
+COPY pnpm-lock.yaml ./
 
 RUN npm install -g pnpm
 
