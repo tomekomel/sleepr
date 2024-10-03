@@ -3,19 +3,15 @@ FROM node:alpine AS development
 WORKDIR /usr/src/app
 
 COPY package.json ./
-COPY pnpm-lock.yaml ./
+COPY package-lock.json ./
 COPY tsconfig.json tsconfig.json
 
-RUN npm install -g pnpm
+RUN npm install
 
-RUN pnpm install
-
-COPY apps/auth apps/auth
+COPY apps/auth app/auth
 COPY libs libs
 
-RUN cd apps/auth && pnpm install
-
-RUN pnpm run build
+RUN npm run build
 
 FROM node:alpine AS production
 
@@ -25,11 +21,9 @@ ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
 
 COPY package.json ./
-COPY pnpm-lock.json ./
+COPY package-lock.json ./
 
-RUN npm install -g pnpm
-
-RUN pnpm install --prod
+RUN npm install --prod
 
 COPY --from=development /usr/src/app/dist ./dist
 
