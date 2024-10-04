@@ -1,4 +1,5 @@
 steps:
+  #reservations
   - name: 'gcr.io/cloud-builders/docker'
     args:
       [
@@ -15,6 +16,8 @@ steps:
         'push',
         'europe-central2-docker.pkg.dev/sleepr-437321/reservations/production',
       ]
+
+  #auth
   - name: 'gcr.io/cloud-builders/docker'
     args:
       [
@@ -31,6 +34,8 @@ steps:
         'push',
         'europe-central2-docker.pkg.dev/sleepr-437321/auth/production',
       ]
+
+  #notifications
   - name: 'gcr.io/cloud-builders/docker'
     args:
       [
@@ -47,6 +52,8 @@ steps:
         'push',
         'europe-central2-docker.pkg.dev/sleepr-437321/notifications/production',
       ]
+
+  #payments
   - name: 'gcr.io/cloud-builders/docker'
     args:
       [
@@ -63,3 +70,6 @@ steps:
         'push',
         'europe-central2-docker.pkg.dev/sleepr-437321/payments/production',
       ]
+
+options:
+  logging: CLOUD_LOGGING_ONLY
