@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: notifications
+  name: notifications
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notifications
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: notifications
+    spec:
+      containers:
+      - image: europe-central2-docker.pkg.dev/sleepr-437321/notifications/production
+        name: production
