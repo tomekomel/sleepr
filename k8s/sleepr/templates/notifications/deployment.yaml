@@ -18,3 +18,22 @@ spec:
       containers:
       - image: europe-central2-docker.pkg.dev/sleepr-437321/notifications/production
         name: production
+        env:
+          - name: PORT
+            value: '3000'
+          - name: GOOGLE_OAUTH_CLIENT_ID
+            value: 460308960789-mnvetrsk8tol05d65c47pemqcuda9t1l.apps.googleusercontent.com
+          - name: SMTP_USER
+            value: wloczykij.podlasie@gmail.com
+          - name: GOOGLE_OAUTH_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: google
+                key: clientSecret
+          - name: GOOGLE_OAUTH_REFRESH_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: google
+                key: refreshToken
+        ports:
+          - containerPort: 3000
