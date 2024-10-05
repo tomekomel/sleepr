@@ -18,3 +18,9 @@ spec:
       containers:
       - image: europe-central2-docker.pkg.dev/sleepr-437321/auth/production
         name: production
+        env:
+          - name: MONGODB_URI
+            valueFrom:
+              secretKeyRef:
+                name: mongodb
+                key: connectionString
