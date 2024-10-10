@@ -16,7 +16,7 @@ spec:
         app: payments
     spec:
       containers:
-      - image: europe-central2-docker.pkg.dev/sleepr-437321/payments/production
+      - image: 065548663792.dkr.ecr.eu-north-1.amazonaws.com/payments:latest
         name: production
         env:
           - name: PORT
