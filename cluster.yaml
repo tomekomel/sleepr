@@ -3,9 +3,9 @@ kind: ClusterConfig
 
 metadata:
   name: sleepr
-  region: eu-north-1
+  region: eu-west-1
 
 nodeGroups:
   - name: ng-1
-    instanceType: t3.small
+    instanceType: t2.micro
     desiredCapacity: 3
