@@ -13,7 +13,9 @@ import { UserDto } from '@app/common/dto';
 export class JwtAuthGuard implements CanActivate {
   constructor(@Inject(AUTH_SERVICE) private readonly authClient: ClientProxy) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const jwt = context.switchToHttp().getRequest().cookies?.Authentication;
+    const jwt =
+      context.switchToHttp().getRequest().cookies?.Authentication ||
+      context.switchToHttp().getRequest().headers.authentication;
     if (!jwt) {
       return false;
     }
