@@ -1,14 +1,30 @@
-import { beforeEach } from 'node:test';
-
 describe('Reservations', () => {
+  let jwt: string;
+
   beforeEach(async () => {
-    await fetch('http://auth:3001', {
+    const userData = {
+      email: 'itpracownia@outlook.com',
+      password: 'SomePassword123!',
+    };
+    await fetch('http://auth:3001/users', {
       method: 'POST',
-      body: JSON.stringify({
-        email: 'itpracownia@outlook.com',
-        password: 'SomePassword123!',
-      }),
+      body: JSON.stringify(userData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
+
+    const response = await fetch('http://auth:3001/auth/login', {
+      method: 'POST',
+      body: JSON.stringify(userData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    jwt = await response.text();
   });
-  test('create', () => {});
+  test('create', () => {
+    expect(true).toBeTruthy();
+  });
 });
