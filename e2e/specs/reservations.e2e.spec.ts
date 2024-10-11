@@ -24,7 +24,49 @@ describe('Reservations', () => {
 
     jwt = await response.text();
   });
-  test('create', () => {
-    expect(true).toBeTruthy();
+  test('create', async () => {
+    const responseCreate = await fetch(
+      'http://reservations:3000/reservations',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authentication: jwt,
+        },
+        body: JSON.stringify({
+          startDate: '2024-12-12',
+          endDate: '2024-12-13',
+          charge: {
+            card: {
+              cvc: '567',
+              exp_month: 12,
+              exp_year: 34,
+              number: '4242424242424242',
+            },
+            amount: 19,
+          },
+        }),
+      },
+    );
+
+    expect(responseCreate.ok).toBeTruthy();
+
+    const createdReservation = await responseCreate.json();
+
+    console.log('Test 1 ', createdReservation);
+
+    const responseGet = await fetch(
+      `http://reservations:3000/reservations/${createdReservation._id}`,
+      {
+        headers: {
+          Authentication: jwt,
+        },
+      },
+    );
+    const reservation = await responseGet.json();
+
+    console.log('Test 2 ', reservation);
+
+    expect(createdReservation).toEqual(reservation);
   });
 });

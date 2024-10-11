@@ -35,7 +35,7 @@ export class ReservationsService {
   }
 
   async findOne(id: string) {
-    return this.reservationRepository.findOne({ id });
+    return this.reservationRepository.findOne({ _id: id });
   }
 
   async update(id: string, updateReservationDto: UpdateReservationDto) {
