@@ -24,7 +24,22 @@ describe('Reservations', () => {
 
     jwt = await response.text();
   });
-  test('create', async () => {
+  test('create & get', async () => {
+    const createdReservation = await createReservation();
+    const responseGet = await fetch(
+      `http://reservations:3000/reservations/${createdReservation._id}`,
+      {
+        headers: {
+          Authentication: jwt,
+        },
+      },
+    );
+    const reservation = await responseGet.json();
+
+    expect(createdReservation).toEqual(reservation);
+  });
+
+  const createReservation = async () => {
     const responseCreate = await fetch(
       'http://reservations:3000/reservations',
       {
@@ -51,22 +66,6 @@ describe('Reservations', () => {
 
     expect(responseCreate.ok).toBeTruthy();
 
-    const createdReservation = await responseCreate.json();
-
-    console.log('Test 1 ', createdReservation);
-
-    const responseGet = await fetch(
-      `http://reservations:3000/reservations/${createdReservation._id}`,
-      {
-        headers: {
-          Authentication: jwt,
-        },
-      },
-    );
-    const reservation = await responseGet.json();
-
-    console.log('Test 2 ', reservation);
-
-    expect(createdReservation).toEqual(reservation);
-  });
+    return responseCreate.json();
+  };
 });
