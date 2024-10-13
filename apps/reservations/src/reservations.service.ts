@@ -46,6 +46,6 @@ export class ReservationsService {
   }
 
   async remove(id: string) {
-    return this.reservationRepository.findOneAndDelete({ id });
+    return this.reservationRepository.findOneAndDelete({ _id: id });
   }
 }
